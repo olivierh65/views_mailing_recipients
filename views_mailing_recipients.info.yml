@@ -1,0 +1,9 @@
+name: 'Views Mailing Recipients'
+type: module
+description: 'Expose CiviCRM mailing recipients as Views relationships: Mailing -> Contacts (recipients) and Contact -> Mailing (filter contacts by mailing_id/job_id).'
+core_version_requirement: ^10
+package: CiviCRM
+
+dependencies:
+  - drupal:views
+  - civicrm_entity:civicrm_entity

@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Views Mailing Recipients module.
+ */
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function views_mailing_recipients_views_data_alter(array &$data) {
+
+  if (isset($data['civicrm_mailing'])) {
+    $data['civicrm_mailing']['mailing_recipients_relationship'] = [
+      'title'        => t('Contacts destinataires'),
+      'help'         => t('Contacts destinataires du mailing (via activités Bulk Email).'),
+      'relationship' => [
+        'id'           => 'mailing_recipients_relationship',
+        'table'        => 'civicrm_mailing',
+        'base'         => 'civicrm_contact',
+        'base field'   => 'id',
+        'first field'  => 'source_record_id',
+        'second field' => 'contact_id',
+        'label'        => t('Contact destinataire'),
+      ],
+    ];
+  }
+
+  // Relation inverse : depuis une vue Contacts, relier au mailing.
+  if (isset($data['civicrm_contact'])) {
+    $data['civicrm_contact']['contact_to_mailing_relationship'] = [
+      'title' => t('Mailing du contact'),
+      'help'  => t('Relie chaque contact au(x) mailing(s) dont il est destinataire '
+        . '(via civicrm_mailing_event_queue et civicrm_mailing_job). '
+        . 'Permet de filtrer les contacts par mailing_id et job_id avec les filtres Views standards.'),
+      'relationship' => [
+        'id'          => 'contact_to_mailing_relationship',
+        'base'        => 'civicrm_mailing',
+        'base field'  => 'id',
+        'label'       => t('Mailing du contact'),
+      ],
+    ];
+  }
+
+}
